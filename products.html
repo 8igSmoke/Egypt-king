@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>الكنج المصري - Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        header .logo {
+            display: inline-block;
+            font-size: 24px;
+        }
+
+        nav {
+            display: inline-block;
+            float: right;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .cart-icon {
+            position: absolute;
+            top: -5px;
+            left: 100%;
+            margin-left: 5px;
+        }
+
+        .cart-icon i {
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: yellow;
+            color: black;
+            border-radius: 50%;
+            padding: 2px 5px;
+            font-size: 12px;
+        }
+
+        /* Centered Search Bar Style */
+        #filter {
+            display: flex;
+            justify-content: center; /* Centering the search bar */
+            margin: 20px 0;
+        }
+
+        #search {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid black; /* Orange border when not focused */
+            border-radius: 5px;
+            margin-right: 10px; /* Margin to the right of the search box */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: border 0.2s;
+        }
+
+        #search:focus {
+            border: 1px solid black; /* Black border on focus */
+        }
+
+        #filter-btn {
+            background-color: #FFFF00;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product-card {
+            background: #fafafa;
+            border: 1px solid #000;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            flex: 1 1 calc(30% - 20px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .price {
+            font-size: 20px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .add-to-cart-btn {
+            background-color: #FFFF00;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #pagination {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #pagination a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #000;
+            font-size: 18px;
+        }
+
+        #pagination a:hover {
+            color: #ff0000;
+        }
+
+        .arrow {
+            font-size: 20px;
+            vertical-align: middle;
+        }
+
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .social-media a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>الكنج المصري | Egypt King</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li>
+                        <a href="cart.html">Cart</a>
+                        <div class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge" id="cart-count">0</span>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Product Filter Section -->
+    <section id="filter" class="container">
+        <input type="text" id="search" placeholder="Search products..." onkeyup="filterProducts()">
+        <button id="filter-btn">Filter</button>
+    </section>
+
+    <!-- Product List Section -->
+    <section id="product-list" class="container">
+        <!-- Product cards will be generated dynamically -->
+    </section>
+
+    <!-- Pagination Section -->
+    <div id="pagination" class="container">
+        <a href="#" class="arrow" id="prev-page" onclick="changePage(currentPage - 1)"><i class="fas fa-chevron-left"></i></a>
+        <span id="page-numbers"></span>
+        <a href="#" class="arrow" id="next-page" onclick="changePage(currentPage + 1)"><i class="fas fa-chevron-right"></i></a>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ShopMax. All Rights Reserved.</p>
+            <div class="social-media">
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const products = [
+            { id: 1, name: 'Product 1', price: 29.99, image: '' },
+  { id: 2, name: 'Product 2', price: 30.99, image: '' },
+  { id: 3, name: 'Product 3', price: 31.99, image: '' },
+  { id: 4, name: 'Product 4', price: 32.99, image: '' },
+  { id: 5, name: 'Product 5', price: 33.99, image: '' },
+  { id: 6, name: 'Product 6', price: 34.99, image: '' },
+  { id: 7, name: 'Product 7', price: 35.99, image: '' },
+  { id: 8, name: 'Product 8', price: 36.99, image: '' },
+  { id: 9, name: 'Product 9', price: 37.99, image: '' },
+  { id: 10, name: 'Product 10', price: 38.99, image: '' },
+  { id: 11, name: 'Product 11', price: 39.99, image: '' },
+  { id: 12, name: 'Product 12', price: 40.99, image: '' },
+  { id: 13, name: 'Product 13', price: 41.99, image: '' },
+  { id: 14, name: 'Product 14', price: 42.99, image: '' },
+  { id: 15, name: 'Product 15', price: 43.99, image: '' },
+  { id: 16, name: 'Product 16', price: 44.99, image: '' },
+  { id: 17, name: 'Product 17', price: 45.99, image: '' },
+  { id: 18, name: 'Product 18', price: 46.99, image: '' },
+  { id: 19, name: 'Product 19', price: 47.99, image: '' },
+  { id: 20, name: 'Product 20', price: 48.99, image: '' },
+  { id: 21, name: 'Product 21', price: 49.99, image: '' },
+  { id: 22, name: 'Product 22', price: 50.99, image: '' },
+  { id: 23, name: 'Product 23', price: 51.99, image: '' },
+  { id: 24, name: 'Product 24', price: 52.99, image: '' },
+  { id: 25, name: 'Product 25', price: 53.99, image: '' },
+  { id: 26, name: 'Product 26', price: 54.99, image: '' },
+  { id: 27, name: 'Product 27', price: 55.99, image: '' },
+  { id: 28, name: 'Product 28', price: 56.99, image: '' },
+  { id: 29, name: 'Product 29', price: 57.99, image: '' },
+  { id: 30, name: 'Product 30', price: 58.99, image: '' },
+  { id: 31, name: 'Product 31', price: 59.99, image: '' },
+  { id: 32, name: 'Product 32', price: 60.99, image: '' },
+  { id: 33, name: 'Product 33', price: 61.99, image: '' },
+  { id: 34, name: 'Product 34', price: 62.99, image: '' },
+  { id: 35, name: 'Product 35', price: 63.99, image: '' },
+  { id: 36, name: 'Product 36', price: 64.99, image: '' },
+  { id: 37, name: 'Product 37', price: 65.99, image: '' },
+  { id: 38, name: 'Product 38', price: 66.99, image: '' },
+  { id: 39, name: 'Product 39', price: 67.99, image: '' },
+  { id: 40, name: 'Product 40', price: 68.99, image: '' },
+  { id: 41, name: 'Product 41', price: 69.99, image: '' },
+  { id: 42, name: 'Product 42', price: 70.99, image: '' },
+  { id: 43, name: 'Product 43', price: 71.99, image: '' },
+  { id: 44, name: 'Product 44', price: 72.99, image: '' },
+  { id: 45, name: 'Product 45', price: 73.99, image: '' },
+  { id: 46, name: 'Product 46', price: 74.99, image: '' },
+  { id: 47, name: 'Product 47', price: 75.99, image: '' },
+  { id: 48, name: 'Product 48', price: 76.99, image: '' },
+  { id: 49, name: 'Product 49', price: 77.99, image: '' },
+  { id: 50, name: 'Product 50', price: 78.99, image: '' },
+  { id: 51, name: 'Product 51', price: 79.99, image: '' },
+  { id: 52, name: 'Product 52', price: 80.99, image: '' },
+  { id: 53, name: 'Product 53', price: 81.99, image: '' },
+  { id: 54, name: 'Product 54', price: 82.99, image: '' },
+  { id: 55, name: 'Product 55', price: 83.99, image: '' },
+  { id: 56, name: 'Product 56', price: 84.99, image: '' },
+  { id: 57, name: 'Product 57', price: 85.99, image: '' },
+  { id: 58, name: 'Product 58', price: 86.99, image: '' },
+  { id: 59, name: 'Product 59', price: 87.99, image: '' },
+  { id: 60, name: 'Product 60', price: 88.99, image: '' },
+  { id: 61, name: 'Product 61', price: 89.99, image: '' },
+  { id: 62, name: 'Product 62', price: 90.99, image: '' },
+  { id: 63, name: 'Product 63', price: 91.99, image: '' },
+  { id: 64, name: 'Product 64', price: 92.99, image: '' },
+  { id: 65, name: 'Product 65', price: 93.99, image: '' },
+  { id: 66, name: 'Product 66', price: 94.99, image: '' },
+  { id: 67, name: 'Product 67', price: 95.99, image: '' },
+  { id: 68, name: 'Product 68', price: 96.99, image: '' },
+  { id: 69, name: 'Product 69', price: 97.99, image: '' },
+  { id: 70, name: 'Product 70', price: 98.99, image: '' },
+  { id: 71, name: 'Product 71', price: 99.99, image: '' },
+  { id: 72, name: 'Product 72', price: 100.99, image: '' },
+  { id: 73, name: 'Product 73', price: 101.99, image: '' },
+  { id: 74, name: 'Product 74', price: 102.99, image: '' },
+  { id: 75, name: 'Product 75', price: 103.99, image: '' },
+  { id: 76, name: 'Product 76', price: 104.99, image: '' },
+  { id: 77, name: 'Product 77', price: 105.99, image: '' },
+  { id: 78, name: 'Product 78', price: 106.99, image: '' },
+  { id: 79, name: 'Product 79', price: 107.99, image: '' },
+  { id: 80, name: 'Product 80', price: 108.99, image: '' },
+  { id: 81, name: 'Product 81', price: 109.99, image: '' },
+  { id: 82, name: 'Product 82', price: 110.99, image: '' },
+  { id: 83, name: 'Product 83', price: 111.99, image: '' },
+  { id: 84, name: 'Product 84', price: 112.99, image: '' },
+  { id: 85, name: 'Product 85', price: 113.99, image: '' },
+  { id: 86, name: 'Product 86', price: 114.99, image: '' },
+  { id: 87, name: 'Product 87', price: 115.99, image: '' },
+  { id: 88, name: 'Product 88', price: 116.99, image: '' },
+  { id: 89, name: 'Product 89', price: 117.99, image: '' },
+  { id: 90, name: 'Product 90', price: 118.99, image: '' },
+  { id: 91, name: 'Product 91', price: 119.99, image: '' },
+  { id: 92, name: 'Product 92', price: 120.99, image: '' },
+  { id: 93, name: 'Product 93', price: 121.99, image: '' },
+  { id: 94, name: 'Product 94', price: 122.99, image: '' },
+  { id: 95, name: 'Product 95', price: 123.99, image: '' },
+  { id: 96, name: 'Product 96', price: 124.99, image: '' },
+  { id: 97, name: 'Product 97', price: 125.99, image: '' },
+  { id: 98, name: 'Product 98', price: 126.99, image: '' },
+  { id: 99, name: 'Product 99', price: 127.99, image: '' },
+  { id: 100, name: 'Product 100', price: 128.99, image: '' },
+  { id: 101, name: 'Product 101', price: 129.99, image: '' },
+  { id: 102, name: 'Product 102', price: 130.99, image: '' },
+  { id: 103, name: 'Product 103', price: 131.99, image: '' },
+  { id: 104, name: 'Product 104', price: 132.99, image: '' },
+  { id: 105, name: 'Product 105', price: 133.99, image: '' },
+  { id: 106, name: 'Product 106', price: 134.99, image: '' },
+  { id: 107, name: 'Product 107', price: 135.99, image: '' },
+  { id: 108, name: 'Product 108', price: 136.99, image: '' },
+  { id: 109, name: 'Product 109', price: 137.99, image: '' },
+  { id: 110, name: 'Product 110', price: 138.99, image: '' },
+  { id: 111, name: 'Product 111', price: 139.99, image: '' },
+  { id: 112, name: 'Product 112', price: 140.99, image: '' },
+  { id: 113, name: 'Product 113', price: 141.99, image: '' },
+  { id: 114, name: 'Product 114', price: 142.99, image: '' },
+  { id: 115, name: 'Product 115', price: 143.99, image: '' },
+  { id: 116, name: 'Product 116', price: 144.99, image: '' },
+  { id: 117, name: 'Product 117', price: 145.99, image: '' },
+  { id: 118, name: 'Product 118', price: 146.99, image: '' },
+  { id: 119, name: 'Product 119', price: 147.99, image: '' },
+  { id: 120, name: 'Product 120', price: 148.99, image: '' },
+  { id: 121, name: 'Product 121', price: 149.99, image: '' },
+  { id: 122, name: 'Product 122', price: 150.99, image: '' },
+  { id: 123, name: 'Product 123', price: 151.99, image: '' },
+  { id: 124, name: 'Product 124', price: 152.99, image: '' },
+  { id: 125, name: 'Product 125', price: 153.99, image: '' },
+  { id: 126, name: 'Product 126', price: 154.99, image: '' },
+  { id: 127, name: 'Product 127', price: 155.99, image: '' },
+  { id: 128, name: 'Product 128', price: 156.99, image: '' },
+  { id: 129, name: 'Product 129', price: 157.99, image: '' },
+  { id: 130, name: 'Product 130', price: 158.99, image: '' },
+  { id: 131, name: 'Product 131', price: 159.99, image: '' },
+  { id: 132, name: 'Product 132', price: 160.99, image: '' },
+  { id: 133, name: 'Product 133', price: 161.99, image: '' },
+  { id: 134, name: 'Product 134', price: 162.99, image: '' },
+  { id: 135, name: 'Product 135', price: 163.99, image: '' },
+  { id: 136, name: 'Product 136', price: 164.99, image: '' },
+  { id: 137, name: 'Product 137', price: 165.99, image: '' },
+  { id: 138, name: 'Product 138', price: 166.99, image: '' },
+  { id: 139, name: 'Product 139', price: 167.99, image: '' },
+  { id: 140, name: 'Product 140', price: 168.99, image: '' },
+  { id: 141, name: 'Product 141', price: 169.99, image: '' },
+  { id: 142, name: 'Product 142', price: 170.99, image: '' },
+  { id: 143, name: 'Product 143', price: 171.99, image: '' },
+  { id: 144, name: 'Product 144', price: 172.99, image: '' },
+  { id: 145, name: 'Product 145', price: 173.99, image: '' },
+  { id: 146, name: 'Product 146', price: 174.99, image: '' },
+  { id: 147, name: 'Product 147', price: 175.99, image: '' },
+  { id: 148, name: 'Product 148', price: 176.99, image: '' },
+  { id: 149, name: 'Product 149', price: 177.99, image: '' },
+  { id: 150, name: 'Product 150', price: 178.99, image: '' },
+  { id: 151, name: 'Product 151', price: 179.99, image: '' },
+{ id: 152, name: 'Product 152', price: 180.99, image: '' },
+{ id: 153, name: 'Product 153', price: 181.99, image: '' },
+{ id: 154, name: 'Product 154', price: 182.99, image: '' },
+{ id: 155, name: 'Product 155', price: 183.99, image: '' },
+{ id: 156, name: 'Product 156', price: 184.99, image: '' },
+{ id: 157, name: 'Product 157', price: 185.99, image: '' },
+{ id: 158, name: 'Product 158', price: 186.99, image: '' },
+{ id: 159, name: 'Product 159', price: 187.99, image: '' },
+{ id: 160, name: 'Product 160', price: 188.99, image: '' },
+{ id: 161, name: 'Product 161', price: 189.99, image: '' },
+{ id: 162, name: 'Product 162', price: 190.99, image: '' },
+{ id: 163, name: 'Product 163', price: 191.99, image: '' },
+{ id: 164, name: 'Product 164', price: 192.99, image: '' },
+{ id: 165, name: 'Product 165', price: 193.99, image: '' },
+{ id: 166, name: 'Product 166', price: 194.99, image: '' },
+{ id: 167, name: 'Product 167', price: 195.99, image: '' },
+{ id: 168, name: 'Product 168', price: 196.99, image: '' },
+{ id: 169, name: 'Product 169', price: 197.99, image: '' },
+{ id: 170, name: 'Product 170', price: 198.99, image: '' },
+{ id: 171, name: 'Product 171', price: 199.99, image: '' },
+{ id: 172, name: 'Product 172', price: 200.99, image: '' },
+{ id: 173, name: 'Product 173', price: 201.99, image: '' },
+{ id: 174, name: 'Product 174', price: 202.99, image: '' },
+{ id: 175, name: 'Product 175', price: 203.99, image: '' },
+{ id: 176, name: 'Product 176', price: 204.99, image: '' },
+{ id: 177, name: 'Product 177', price: 205.99, image: '' },
+{ id: 178, name: 'Product 178', price: 206.99, image: '' },
+{ id: 179, name: 'Product 179', price: 207.99, image: '' },
+{ id: 180, name: 'Product 180', price: 208.99, image: '' },
+{ id: 181, name: 'Product 181', price: 209.99, image: '' },
+{ id: 182, name: 'Product 182', price: 210.99, image: '' },
+{ id: 183, name: 'Product 183', price: 211.99, image: '' },
+{ id: 184, name: 'Product 184', price: 212.99, image: '' },
+{ id: 185, name: 'Product 185', price: 213.99, image: '' },
+{ id: 186, name: 'Product 186', price: 214.99, image: '' },
+{ id: 187, name: 'Product 187', price: 215.99, image: '' },
+{ id: 188, name: 'Product 188', price: 216.99, image: '' },
+{ id: 189, name: 'Product 189', price: 217.99, image: '' },
+{ id: 190, name: 'Product 190', price: 218.99, image: '' },
+{ id: 191, name: 'Product 191', price: 219.99, image: '' },
+{ id: 192, name: 'Product 192', price: 220.99, image: '' },
+{ id: 193, name: 'Product 193', price: 221.99, image: '' },
+{ id: 194, name: 'Product 194', price: 222.99, image: '' },
+{ id: 195, name: 'Product 195', price: 223.99, image: '' },
+{ id: 196, name: 'Product 196', price: 224.99, image: '' },
+{ id: 197, name: 'Product 197', price: 225.99, image: '' },
+{ id: 198, name: 'Product 198', price: 226.99, image: '' },
+{ id: 199, name: 'Product 199', price: 227.99, image: '' },
+{ id: 200, name: 'Product 200', price: 228.99, image: '' },
+{ id: 201, name: 'Product 201', price: 229.99, image: '' },
+{ id: 202, name: 'Product 202', price: 230.99, image: '' },
+{ id: 203, name: 'Product 203', price: 231.99, image: '' },
+{ id: 204, name: 'Product 204', price: 232.99, image: '' },
+{ id: 205, name: 'Product 205', price: 233.99, image: '' },
+{ id: 206, name: 'Product 206', price: 234.99, image: '' },
+{ id: 207, name: 'Product 207', price: 235.99, image: '' },
+{ id: 208, name: 'Product 208', price: 236.99, image: '' },
+{ id: 209, name: 'Product 209', price: 237.99, image: '' },
+{ id: 210, name: 'Product 210', price: 238.99, image: '' },
+{ id: 211, name: 'Product 211', price: 239.99, image: '' },
+{ id: 212, name: 'Product 212', price: 240.99, image: '' },
+{ id: 213, name: 'Product 213', price: 241.99, image: '' },
+{ id: 214, name: 'Product 214', price: 242.99, image: '' },
+{ id: 215, name: 'Product 215', price: 243.99, image: '' },
+{ id: 216, name: 'Product 216', price: 244.99, image: '' },
+{ id: 217, name: 'Product 217', price: 245.99, image: '' },
+{ id: 218, name: 'Product 218', price: 246.99, image: '' },
+{ id: 219, name: 'Product 219', price: 247.99, image: '' },
+{ id: 220, name: 'Product 220', price: 248.99, image: '' },
+{ id: 221, name: 'Product 221', price: 249.99, image: '' },
+{ id: 222, name: 'Product 222', price: 250.99, image: '' },
+{ id: 223, name: 'Product 223', price: 251.99, image: '' },
+{ id: 224, name: 'Product 224', price: 252.99, image: '' },
+{ id: 225, name: 'Product 225', price: 253.99, image: '' },
+{ id: 226, name: 'Product 226', price: 254.99, image: '' },
+{ id: 227, name: 'Product 227', price: 255.99, image: '' },
+{ id: 228, name: 'Product 228', price: 256.99, image: '' },
+{ id: 229, name: 'Product 229', price: 257.99, image: '' },
+{ id: 230, name: 'Product 230', price: 258.99, image: '' },
+{ id: 231, name: 'Product 231', price: 259.99, image: '' },
+{ id: 232, name: 'Product 232', price: 260.99, image: '' },
+{ id: 233, name: 'Product 233', price: 261.99, image: '' },
+{ id: 234, name: 'Product 234', price: 262.99, image: '' },
+{ id: 235, name: 'Product 235', price: 263.99, image: '' },
+{ id: 236, name: 'Product 236', price: 264.99, image: '' },
+{ id: 237, name: 'Product 237', price: 265.99, image: '' },
+{ id: 238, name: 'Product 238', price: 266.99, image: '' },
+{ id: 239, name: 'Product 239', price: 267.99, image: '' },
+{ id: 240, name: 'Product 240', price: 268.99, image: '' },
+{ id: 241, name: 'Product 241', price: 269.99, image: '' },
+{ id: 242, name: 'Product 242', price: 270.99, image: '' },
+{ id: 243, name: 'Product 243', price: 271.99, image: '' },
+{ id: 244, name: 'Product 244', price: 272.99, image: '' },
+{ id: 245, name: 'Product 245', price: 273.99, image: '' },
+{ id: 246, name: 'Product 246', price: 274.99, image: '' },
+{ id: 247, name: 'Product 247', price: 275.99, image: '' },
+{ id: 248, name: 'Product 248', price: 276.99, image: '' },
+{ id: 249, name: 'Product 249', price: 277.99, image: '' },
+{ id: 250, name: 'Product 250', price: 278.99, image: '' },
+{ id: 251, name: 'Product 251', price: 279.99, image: '' },
+{ id: 252, name: 'Product 252', price: 280.99, image: '' },
+{ id: 253, name: 'Product 253', price: 281.99, image: '' },
+{ id: 254, name: 'Product 254', price: 282.99, image: '' },
+{ id: 255, name: 'Product 255', price: 283.99, image: '' },
+{ id: 256, name: 'Product 256', price: 284.99, image: '' },
+{ id: 257, name: 'Product 257', price: 285.99, image: '' },
+{ id: 258, name: 'Product 258', price: 286.99, image: '' },
+{ id: 259, name: 'Product 259', price: 287.99, image: '' },
+{ id: 260, name: 'Product 260', price: 288.99, image: '' },
+{ id: 261, name: 'Product 261', price: 289.99, image: '' },
+{ id: 262, name: 'Product 262', price: 290.99, image: '' },
+{ id: 263, name: 'Product 263', price: 291.99, image: '' },
+{ id: 264, name: 'Product 264', price: 292.99, image: '' },
+{ id: 265, name: 'Product 265', price: 293.99, image: '' },
+{ id: 266, name: 'Product 266', price: 294.99, image: '' },
+{ id: 267, name: 'Product 267', price: 295.99, image: '' },
+{ id: 268, name: 'Product 268', price: 296.99, image: '' },
+{ id: 269, name: 'Product 269', price: 297.99, image: '' },
+{ id: 270, name: 'Product 270', price: 298.99, image: '' },
+{ id: 271, name: 'Product 271', price: 299.99, image: '' },
+{ id: 272, name: 'Product 272', price: 300.99, image: '' },
+{ id: 273, name: 'Product 273', price: 301.99, image: '' },
+{ id: 274, name: 'Product 274', price: 302.99, image: '' },
+{ id: 275, name: 'Product 275', price: 303.99, image: '' },
+{ id: 276, name: 'Product 276', price: 304.99, image: '' },
+{ id: 277, name: 'Product 277', price: 305.99, image: '' },
+{ id: 278, name: 'Product 278', price: 306.99, image: '' },
+{ id: 279, name: 'Product 279', price: 307.99, image: '' },
+{ id: 280, name: 'Product 280', price: 308.99, image: '' },
+{ id: 281, name: 'Product 281', price: 309.99, image: '' },
+{ id: 282, name: 'Product 282', price: 310.99, image: '' },
+{ id: 283, name: 'Product 283', price: 311.99, image: '' },
+{ id: 284, name: 'Product 284', price: 312.99, image: '' },
+{ id: 285, name: 'Product 285', price: 313.99, image: '' },
+{ id: 286, name: 'Product 286', price: 314.99, image: '' },
+{ id: 287, name: 'Product 287', price: 315.99, image: '' },
+{ id: 288, name: 'Product 288', price: 316.99, image: '' },
+{ id: 289, name: 'Product 289', price: 317.99, image: '' },
+{ id: 290, name: 'Product 290', price: 318.99, image: '' },
+{ id: 291, name: 'Product 291', price: 319.99, image: '' },
+{ id: 292, name: 'Product 292', price: 320.99, image: '' },
+{ id: 293, name: 'Product 293', price: 321.99, image: '' },
+{ id: 294, name: 'Product 294', price: 322.99, image: '' },
+{ id: 295, name: 'Product 295', price: 323.99, image: '' },
+{ id: 296, name: 'Product 296', price: 324.99, image: '' },
+{ id: 297, name: 'Product 297', price: 325.99, image: '' },
+{ id: 298, name: 'Product 298', price: 326.99, image: '' },
+{ id: 299, name: 'Product 299', price: 327.99, image: '' },
+{ id: 300, name: 'Product 300', price: 328.99, image: '' },
+{ id: 301, name: 'Product 301', price: 329.99, image: '' },
+{ id: 302, name: 'Product 302', price: 330.99, image: '' },
+{ id: 303, name: 'Product 303', price: 331.99, image: '' },
+{ id: 304, name: 'Product 304', price: 332.99, image: '' },
+{ id: 305, name: 'Product 305', price: 333.99, image: '' },
+{ id: 306, name: 'Product 306', price: 334.99, image: '' },
+{ id: 307, name: 'Product 307', price: 335.99, image: '' },
+{ id: 308, name: 'Product 308', price: 336.99, image: '' },
+{ id: 309, name: 'Product 309', price: 337.99, image: '' },
+{ id: 310, name: 'Product 310', price: 338.99, image: '' },
+{ id: 311, name: 'Product 311', price: 339.99, image: '' },
+{ id: 312, name: 'Product 312', price: 340.99, image: '' },
+{ id: 313, name: 'Product 313', price: 341.99, image: '' },
+{ id: 314, name: 'Product 314', price: 342.99, image: '' },
+{ id: 315, name: 'Product 315', price: 343.99, image: '' },
+{ id: 316, name: 'Product 316', price: 344.99, image: '' },
+{ id: 317, name: 'Product 317', price: 345.99, image: '' },
+{ id: 318, name: 'Product 318', price: 346.99, image: '' },
+{ id: 319, name: 'Product 319', price: 347.99, image: '' },
+{ id: 320, name: 'Product 320', price: 348.99, image: '' },
+{ id: 321, name: 'Product 321', price: 349.99, image: '' },
+{ id: 322, name: 'Product 322', price: 350.99, image: '' },
+{ id: 323, name: 'Product 323', price: 351.99, image: '' },
+{ id: 324, name: 'Product 324', price: 352.99, image: '' },
+{ id: 325, name: 'Product 325', price: 353.99, image: '' },
+{ id: 326, name: 'Product 326', price: 354.99, image: '' },
+{ id: 327, name: 'Product 327', price: 355.99, image: '' },
+{ id: 328, name: 'Product 328', price: 356.99, image: '' },
+{ id: 329, name: 'Product 329', price: 357.99, image: '' },
+{ id: 330, name: 'Product 330', price: 358.99, image: '' },
+{ id: 331, name: 'Product 331', price: 359.99, image: '' },
+{ id: 332, name: 'Product 332', price: 360.99, image: '' },
+{ id: 333, name: 'Product 333', price: 361.99, image: '' },
+{ id: 334, name: 'Product 334', price: 362.99, image: '' },
+{ id: 335, name: 'Product 335', price: 363.99, image: '' },
+{ id: 336, name: 'Product 336', price: 364.99, image: '' },
+{ id: 337, name: 'Product 337', price: 365.99, image: '' },
+{ id: 338, name: 'Product 338', price: 366.99, image: '' },
+{ id: 339, name: 'Product 339', price: 367.99, image: '' },
+{ id: 340, name: 'Product 340', price: 368.99, image: '' },
+{ id: 341, name: 'Product 341', price: 369.99, image: '' },
+{ id: 342, name: 'Product 342', price: 370.99, image: '' },
+{ id: 343, name: 'Product 343', price: 371.99, image: '' },
+{ id: 344, name: 'Product 344', price: 372.99, image: '' },
+{ id: 345, name: 'Product 345', price: 373.99, image: '' },
+{ id: 346, name: 'Product 346', price: 374.99, image: '' },
+{ id: 347, name: 'Product 347', price: 375.99, image: '' },
+{ id: 348, name: 'Product 348', price: 376.99, image: '' },
+{ id: 349, name: 'Product 349', price: 377.99, image: '' },
+{ id: 350, name: 'Product 350', price: 378.99, image: '' },
+
+            // Add more products as needed
+        ];
+
+        let currentPage = 1;
+        const itemsPerPage = 18; 
+        const totalPages = Math.ceil(products.length / itemsPerPage);
+
+        function renderProducts(page) {
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = ''; 
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            // Filter products based on search input
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(searchInput)
+            );
+
+            // Slice filtered products for pagination
+            const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+            paginatedProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p class="price">$${product.price.toFixed(2)}</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${product.name}', ${product.price})">Add to Cart</button>
+                `;
+                productList.appendChild(productCard);
+            });
+
+            // Update pagination buttons
+            updatePagination(filteredProducts.length);
+        }
+
+        function updatePagination(filteredCount) {
+            const pageNumbers = document.getElementById('page-numbers');
+            pageNumbers.innerHTML = '';
+
+            const totalFilteredPages = Math.ceil(filteredCount / itemsPerPage);
+
+            // Update previous button
+            document.getElementById('prev-page').style.display = currentPage === 1 ? 'none' : 'inline';
+
+            // Create page number links
+            for (let i = 1; i <= totalFilteredPages; i++) {
+                const pageLink = document.createElement('a');
+                pageLink.href = '#';
+                pageLink.innerText = i;
+                pageLink.onclick = function () { changePage(i); };
+                pageNumbers.appendChild(pageLink);
+            }
+
+            // Update next button
+            document.getElementById('next-page').style.display = currentPage === totalFilteredPages ? 'none' : 'inline';
+        }
+
+        function changePage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderProducts(currentPage);
+        }
+
+        function filterProducts() {
+            currentPage =  1;
+            renderProducts(currentPage);
+        }
+
+        // Get cart count 
+        function getCartCount(){
+            const cart = JSON.parse(localStorage.getItem('shopCart')) || [];
+            return cart.length; 
+        }
+
+        // Update cart count
+        function updateCartCount(){
+            document.getElementById("cart-count").innerText = getCartCount(); 
+        }
+
+        // Add to cart function 
+        // (Product ID is the same as index here for brevity)
+        function addToCart(id, productName, price) {
+            let cart = JSON.parse(localStorage.getItem('shopCart')) || [];
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ id: id, productName, price, quantity: 1 }); 
+            }
+            localStorage.setItem('shopCart', JSON.stringify(cart));
+            updateCartCount();
+            alert(`${productName} has been added to your cart!`);
+        }
+
+        // Initial render
+        renderProducts(currentPage);
+        updateCartCount(); 
+
+
+    </script>
+</body>
+
+</html>
