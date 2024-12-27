@@ -1,0 +1,372 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Egyptking - Your Online Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        header .logo {
+            display: inline-block;
+            font-size: 24px;
+        }
+
+        nav {
+            display: inline-block;
+            float: right;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .cart-icon {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .cart-icon i {
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: yellow;
+            color: black;
+            border-radius: 50%;
+            padding: 2px 5px;
+            font-size: 12px;
+        }
+
+        #hero {
+            background: url('https://static.vecteezy.com/system/resources/previews/009/447/305/non_2x/grey-cement-wall-textured-in-studio-room-3d-backdrop-of-empty-gallery-room-in-dark-gray-concrete-surface-with-cracked-pattern-wide-banner-background-for-loft-design-concepts-vector.jpg') no-repeat center center/cover;
+            height: 400px;
+            position: relative;
+            color: #fff;
+            text-align: center;
+        }
+
+        #hero .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #hero .cta-btn {
+            background-color: #FFFF00;
+            color: #000;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        #categories,
+        #featured-products,
+        #newsletter {
+            padding: 40px 0;
+            background-color: #fff;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .category-row,
+        .product-row {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .category-card,
+        .product-card {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            flex: 1 1 calc(30% - 20px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .category-card:hover,
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-card img,
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .price {
+            font-size: 20px;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .add-to-cart-btn {
+            background-color: #FFFF00;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #333; /* Darker shade on hover */
+        }
+
+        /* Newsletter Input Focus and Default Styles */
+        #newsletter input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #000; /* Orange border by default */
+            width: 300px;
+            transition: border-color 0.3s;
+        }
+
+        #newsletter input:focus {
+            border: 2px solid #000; /* Black border on focus */
+            outline: none; /* Remove default outline */
+        }
+
+        #newsletter {
+            text-align: center;
+        }
+
+        footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .social-media a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        .about-us-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            background-color: #FFFF00;
+            color: black;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .about-us-button:hover {
+            background-color: #e65c00; /* Darker shade on hover */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>الكنج المصري | Egypt King</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li>
+                        <a href="cart.html">Cart</a>
+                        <div class="cart-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="badge" id="cart-count">0</span> 
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+            <h2>مرحبا بكم</h2>
+            <p>Your one-stop shop for the best products!</p>
+            <a href="products.html" class="cta-btn">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories">
+        <div class="container">
+            <h2>Shop by Category</h2>
+            <div class="category-row">
+                <div class="category-card">
+                    <h3>Jackets</h3>
+                    <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/jacket-147-1119502.png" alt="Jackets">
+                    <a href="products.html" class="add-to-cart-btn">Shop Now</a>
+                </div>
+                <div class="category-card">
+                    <h3>perfumes</h3>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJTpxiUK2JJAu0oSHgJAioiwR0bwFGBVAIKA&s" alt="perfumes">
+                    <a href="products.html" class="add-to-cart-btn">Shop Now</a>
+                </div>
+                <div class="category-card">
+                    <h3>tracksuits</h3>
+                    <img src="https://static.thenounproject.com/png/3925863-200.png" alt="tracksuits">
+                    <a href="products.html" class="add-to-cart-btn">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section id="featured-products">
+        <div class="container">
+            <h2>Featured Products</h2>
+            <div class="product-row">
+                <div class="product-card">
+                    <img src="" alt="Product 1" class="product-image">
+                    <h3>Product 1</h3>
+                    <p class="price">$29.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(1, 'Product 1', 29.99)">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="" alt="Product 2" class="product-image">
+                    <h3>Product 2</h3>
+                    <p class="price">$49.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(2, 'Product 2', 49.99)">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="" alt="Product 3" class="product-image">
+                    <h3>Product 3</h3>
+                    <p class="price">$19.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(3, 'Product 3', 19.99)">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="" alt="Product 4" class="product-image">
+                    <h3>Product 4</h3>
+                    <p class="price">$39.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(4, 'Product 4', 39.99)">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="" alt="Product 5" class="product-image">
+                    <h3>Product 5</h3>
+                    <p class="price">$59.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(5, 'Product 5', 59.99)">Add to Cart</button>
+                </div>
+                <div class="product-card">
+                    <img src="" alt="Product 6" class="product-image">
+                    <h3>Product 6</h3>
+                    <p class="price">$24.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(6, 'Product 6', 24.99)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section id="newsletter">
+        <div class="container">
+            <h2>Subscribe to Our Newsletter</h2>
+            <input type="email" placeholder="Enter your email">
+            <button class="add-to-cart-btn">Subscribe</button>
+        </div>
+    </section>
+
+    <!-- About Us Button -->
+    <div class="container">
+        <a href="" class="about-us-button">Learn More About Us</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Egypt King. All rights reserved.</p>
+            <div class="social-media">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize cart count
+        let cart = JSON.parse(localStorage.getItem('shopCart')) || [];
+
+        // Update cart count display
+        function updateCartCount() {
+            document.getElementById('cart-count').innerText = cart.length;
+        }
+
+        // Add to cart function
+        function addToCart(id, productName, price) {
+            cart.push({ id, productName, price, quantity: 1 }); // Add quantity: 1
+            localStorage.setItem('shopCart', JSON.stringify(cart));
+            updateCartCount();  // Update cart count immediately
+            alert(`${productName} has been added to your cart!`);
+        }
+
+        // Load cart count on page load
+        window.onload = function() {
+            updateCartCount();
+        }
+    </script>
+</body>
+</html>
